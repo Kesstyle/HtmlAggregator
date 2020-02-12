@@ -5,8 +5,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @SpringBootApplication
 @RestController
@@ -25,7 +28,16 @@ public class HtmlAggregatorApplication {
 	}
 
 	@GetMapping(path = "/api/v1/page")
-	public String fetch(@RequestParam final String url) {
+	public String fetch(@RequestHeader(name = "Target-URL", defaultValue = "") final String url) {
 		return htmlJsoupAdapter.parseFromUrl(url);
+	}
+
+	@GetMapping(path = "/api/v1/elements")
+	public List<String> getElements(@RequestHeader(name = "Target-URL", defaultValue = "") final String url,
+									@RequestHeader(name = "Target-html-template", defaultValue = "")
+									final String template,
+									@RequestParam (defaultValue = "") final String filter) {
+		return htmlJsoupAdapter.getListOfElementsFromUrlByPattern(url, template, filter);
+
 	}
 }
