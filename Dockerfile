@@ -33,6 +33,7 @@ RUN chown kes:kes_group $TARGET
 RUN chown kes:kes_group $TARGET/$JAR_NAME
 RUN chown kes:kes_group $TARGET/$APP_PROPS
 #RUN chown kes:kes_group $TARGET/wrapper.sh
+RUN apt-get update -y && apt-get upgrade -y && apt-get install sudo -y && apt-get install nano -y
 
 USER kes
 
